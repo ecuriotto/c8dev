@@ -21,7 +21,7 @@ public class CreditCardChargingWorker {
 
   @Autowired CreditCardService creditCardService;
 
-  @JobWorker(type = "credit-card-charging")
+  @JobWorker(type = "credit-card-charging", autoComplete=false)
   public void handleCreditCardCharging(final JobClient jobClient, final ActivatedJob job) {
     LOGGER.info("Task definition type: " + job.getType());
     Map<String, Object> variables = job.getVariablesAsMap();
@@ -42,7 +42,8 @@ public class CreditCardChargingWorker {
         ));
     }
     catch(InvalidCreditCardException ie){
-        jobClient.newFailCommand(job).retries(3).errorMessage(ie.getMessage())
+        Integer retries = job.getRetries();
+        jobClient.newFailCommand(job).retries(retries -1).errorMessage(ie.getMessage())
         .send()
         .exceptionally((
             throwable -> {
