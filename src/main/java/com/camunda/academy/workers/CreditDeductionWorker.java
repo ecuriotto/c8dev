@@ -32,7 +32,14 @@ public class CreditDeductionWorker {
     //variables.put("customerCredit", customerCredit);
     variables.put("openAmount", openAmount);
 
-    jobClient.newCompleteCommand(job).variables(variables).send().join();
+    jobClient.newCompleteCommand(job)
+    .variables(variables)          
+    .send()
+    .exceptionally((
+        throwable -> {
+        throw new RuntimeException("Could not complete job", throwable);
+        }
+    ));
 
   }
 }

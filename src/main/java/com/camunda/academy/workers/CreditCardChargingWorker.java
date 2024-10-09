@@ -31,7 +31,13 @@ public class CreditCardChargingWorker {
 
     creditCardService.chargeAmount(cardNumber, cvc, expiryDate, amount);
     
-    jobClient.newCompleteCommand(job).send().join();
+    jobClient.newCompleteCommand(job)          
+    .send()
+    .exceptionally((
+        throwable -> {
+        throw new RuntimeException("Could not complete job", throwable);
+        }
+    ));
 
   }
 }
