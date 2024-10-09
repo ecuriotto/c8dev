@@ -34,5 +34,7 @@ public class CreditDeductionWorker {
 
     jobClient.newCompleteCommand(job).variables(variables).send().join();
 
+    
+
   }
 }

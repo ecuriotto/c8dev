@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.camunda.academy.exceptions.InvalidCreditCardException;
 import com.camunda.academy.services.CreditCardService;
 
 @Component
@@ -29,9 +30,26 @@ public class CreditCardChargingWorker {
     String expiryDate = variables.get("expiryDate").toString();
     Double amount = Double.valueOf(variables.get("openAmount").toString());
 
-    creditCardService.chargeAmount(cardNumber, cvc, expiryDate, amount);
-    
-    jobClient.newCompleteCommand(job).send().join();
+    try {
+        creditCardService.chargeAmount(cardNumber, cvc, expiryDate, amount);
+        
+        jobClient.newCompleteCommand(job)          
+        .send()
+        .exceptionally((
+            throwable -> {
+            throw new RuntimeException("Could not complete job", throwable);
+            }
+        ));
+    }
+    catch(InvalidCreditCardException ie){
+        jobClient.newFailCommand(job).retries(3).errorMessage(ie.getMessage())
+        .send()
+        .exceptionally((
+            throwable -> {
+            throw new RuntimeException("Could not complete job", throwable);
+            }
+        ));
+    }
 
   }
 }
