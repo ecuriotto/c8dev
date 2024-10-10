@@ -42,9 +42,20 @@ public class CreditCardChargingWorker {
         ));
     }
     catch(InvalidCreditCardException ie){
-        Integer retries = job.getRetries();
-        jobClient.newFailCommand(job).retries(retries -1).errorMessage(ie.getMessage())
+        jobClient.newThrowErrorCommand(job).errorCode("creditCardChargeError")
+        .variables(Map.of("myErrorMessage", "Expiry date with wrong number of digits"))
+        //.errorMessage("This is ane error with the date of the credit card")//This is not handled by Zeebe at the moment
         .send()
+        .exceptionally((
+            throwable -> {
+            throw new RuntimeException("Could not complete job", throwable);
+            }
+        ));
+    }
+    catch(Exception e){
+      Integer retries = job.getRetries();
+      jobClient.newFailCommand(job).retries(retries -1).errorMessage(e.getMessage())
+              .send()
         .exceptionally((
             throwable -> {
             throw new RuntimeException("Could not complete job", throwable);
