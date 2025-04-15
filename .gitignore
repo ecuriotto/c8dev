@@ -11,4 +11,4 @@ bin/
 .DS_Store
 
 # Project
-src/main/resources/*
+src/main/resources/*.properties
