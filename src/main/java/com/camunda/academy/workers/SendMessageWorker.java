@@ -47,16 +47,15 @@ public class SendMessageWorker {
         .correlationKey(variables.get("orderId").toString())
         .send().join();
 
-    jobClient.newCompleteCommand(job)          
-    .send()
-    .exceptionally((
-        throwable -> {
-        throw new RuntimeException("Could not complete job", throwable);
-        }
-    ));
+    jobClient.newCompleteCommand(job)
+        .send()
+        .exceptionally((throwable -> {
+          throw new RuntimeException("Could not complete job", throwable);
+        }));
   }
 
-  // Generates a random order ID with a given length, consisting of letters and/or digits
+  // Generates a random order ID with a given length, consisting of letters and/or
+  // digits.
   private String generateRandomOrderId(int length) {
     var stringBuilder = new StringBuilder();
     var random = new Random();
