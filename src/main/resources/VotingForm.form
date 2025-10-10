@@ -1,0 +1,44 @@
+{
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.6.0",
+  "exporter": {
+    "name": "Camunda Web Modeler",
+    "version": "4c8ade0"
+  },
+  "schemaVersion": 19,
+  "id": "VotingForm",
+  "components": [
+    {
+      "text": "# Voting form",
+      "label": "Text view",
+      "type": "text",
+      "layout": {
+        "row": "Row_1rkhaor",
+        "columns": null
+      },
+      "id": "Field_1ssiiaw"
+    },
+    {
+      "label": "Name of the voter",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_02vbycx",
+        "columns": null
+      },
+      "id": "Field_06p2qez",
+      "key": "name",
+      "readonly": true
+    },
+    {
+      "label": "Opinion?",
+      "type": "checkbox",
+      "layout": {
+        "row": "Row_0md1lin",
+        "columns": null
+      },
+      "id": "Field_10iej8m",
+      "key": "vote"
+    }
+  ],
+  "type": "default"
+}
