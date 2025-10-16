@@ -1,9 +1,9 @@
 package com.camunda.academy.workers;
 
-import io.camunda.zeebe.client.ZeebeClient;
-import io.camunda.zeebe.client.api.response.ActivatedJob;
-import io.camunda.zeebe.client.api.worker.JobClient;
-import io.camunda.zeebe.spring.client.annotation.JobWorker;
+import io.camunda.client.CamundaClient;
+import io.camunda.client.annotation.JobWorker;
+import io.camunda.client.api.response.ActivatedJob;
+import io.camunda.client.api.worker.JobClient;
 import java.util.Map;
 import java.util.Random;
 import org.slf4j.Logger;
@@ -17,7 +17,7 @@ public class SendMessageWorker {
   Logger LOGGER = LoggerFactory.getLogger(SendMessageWorker.class);
 
   @Autowired
-  private ZeebeClient zeebeClient;
+  private CamundaClient camundaClient;
 
   @JobWorker(type = "payment-invocation", autoComplete = false)
   public void handlePaymentInvocation(final JobClient jobClient, final ActivatedJob job) {
@@ -27,7 +27,7 @@ public class SendMessageWorker {
     String orderId = variables.get("orderId").toString();
     // variables.put("orderId", orderId);
 
-    zeebeClient.newPublishMessageCommand()
+    camundaClient.newPublishMessageCommand()
         .messageName("paymentRequestMessage")
         .correlationKey(orderId)
         .variables(variables)
@@ -42,7 +42,7 @@ public class SendMessageWorker {
 
     Map<String, Object> variables = job.getVariablesAsMap();
 
-    zeebeClient.newPublishMessageCommand()
+    camundaClient.newPublishMessageCommand()
         .messageName("paymentCompletedMessage")
         .correlationKey(variables.get("orderId").toString())
         .send().join();
