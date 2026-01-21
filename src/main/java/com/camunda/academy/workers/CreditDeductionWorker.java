@@ -12,7 +12,7 @@ public class CreditDeductionWorker {
 
   Logger LOGGER = LoggerFactory.getLogger(CreditCardChargingWorker.class);
 
-  @JobWorker(type = "credit-deduction")
+  @JobWorker(type = "credit-deduction", autoComplete = false)
   public void handleCreditCardCharging(final JobClient jobClient, final ActivatedJob job) {
     LOGGER.info("Task definition type: " + job.getType());
     jobClient.newCompleteCommand(job).send().join();

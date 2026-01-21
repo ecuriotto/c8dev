@@ -10,12 +10,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class CreditCardChargingWorker {
 
-  Logger LOGGER = LoggerFactory.getLogger(CreditCardChargingWorker.class);
+    Logger LOGGER = LoggerFactory.getLogger(CreditCardChargingWorker.class);
 
-  @JobWorker(type = "credit-card-charging")
-  public void handleCreditCardCharging(final JobClient jobClient, final ActivatedJob job) {
-    LOGGER.info("Task definition type: " + job.getType());
-    jobClient.newCompleteCommand(job).send().join();
+    @JobWorker(type = "credit-card-charging", autoComplete = false)
+    public void handleCreditCardCharging(final JobClient jobClient, final ActivatedJob job) {
+        LOGGER.info("Task definition type: " + job.getType());
+        jobClient.newCompleteCommand(job).send().join();
 
-  }
+    }
 }
