@@ -16,7 +16,8 @@ import com.camunda.academy.services.CustomerService;
 @Component
 public class CreditDeductionWorker {
 
-  @Autowired CustomerService customerService;
+  @Autowired
+  CustomerService customerService;
   Logger LOGGER = LoggerFactory.getLogger(CreditCardChargingWorker.class);
 
   @JobWorker(type = "credit-deduction")
@@ -29,12 +30,10 @@ public class CreditDeductionWorker {
 
     double openAmount = customerService.deductCredit(customerId, orderTotal);
 
-    //variables.put("customerCredit", customerCredit);
+    // variables.put("customerCredit", customerCredit);
     variables.put("openAmount", openAmount);
 
     jobClient.newCompleteCommand(job).variables(variables).send().join();
-
-    
 
   }
 }

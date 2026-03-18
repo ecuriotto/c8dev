@@ -54,6 +54,24 @@ public class SendMessageWorker {
         }));
   }
 
+  @JobWorker(type = "payment-failure", autoComplete = false)
+  public void handlePaymentFailure(final JobClient jobClient, final ActivatedJob job) {
+    LOGGER.info("Task definition type: " + job.getType());
+
+    Map<String, Object> variables = job.getVariablesAsMap();
+
+    camundaClient.newPublishMessageCommand()
+        .messageName("paymentFailedMessage")
+        .correlationKey(variables.get("orderId").toString())
+        .send().join();
+
+    jobClient.newCompleteCommand(job)
+        .send()
+        .exceptionally((throwable -> {
+          throw new RuntimeException("Could not complete job", throwable);
+        }));
+  }
+
   // Generates a random order ID with a given length, consisting of letters and/or
   // digits.
   private String generateRandomOrderId(int length) {
