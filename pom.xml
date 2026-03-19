@@ -9,6 +9,7 @@
     <properties>
         <spring-boot.version>3.4.3</spring-boot.version>
         <java.version>21</java.version>
+        <version.connectors>8.8.0</version.connectors>
     </properties>
 
     <dependencyManagement>
@@ -31,9 +32,24 @@
             <version>8.8.0</version>
         </dependency>
         <dependency>
+            <groupId>io.camunda.connector</groupId>
+            <artifactId>spring-boot-starter-camunda-connectors</artifactId>
+            <version>${version.connectors}</version>
+        </dependency>
+        <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
             <version>1.5.18</version>
+        </dependency>
+        <dependency>
+            <groupId>io.camunda.connector</groupId>
+            <artifactId>connector-core</artifactId>
+            <version>${version.connectors}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.camunda.connector</groupId>
+            <artifactId>connector-validation</artifactId>
+            <version>${version.connectors}</version>
         </dependency>
     </dependencies>
     <build>
@@ -49,6 +65,11 @@
                         <arg>-parameters</arg>
                     </compilerArgs>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${spring-boot.version}</version>
             </plugin>
         </plugins>
     </build>

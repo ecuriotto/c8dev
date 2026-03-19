@@ -12,3 +12,4 @@ bin/
 
 # Project
 src/main/resources/*.properties
+log.log

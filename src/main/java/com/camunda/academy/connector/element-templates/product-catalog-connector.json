@@ -1,0 +1,67 @@
+{
+  "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
+  "name": "Product Catalog",
+  "id": "io.camunda.academy.product-catalog.v1",
+  "version": 1,
+  "description": "Looks up product information from the internal product catalog.",
+  "appliesTo": ["bpmn:ServiceTask"],
+  "groups": [
+    { "id": "input", "label": "Product Lookup" },
+    { "id": "output", "label": "Output Mapping" },
+    { "id": "errors", "label": "Error Handling" }
+  ],
+  "properties": [
+    {
+      "type": "Hidden",
+      "value": "io.camunda.academy:product-catalog:1",
+      "binding": {
+        "type": "zeebe:taskDefinition",
+        "property": "type"
+      }
+    },
+    {
+      "label": "Product ID",
+      "description": "The ID of the product to look up in the catalog.",
+      "group": "input",
+      "type": "String",
+      "feel": "optional",
+      "binding": {
+        "type": "zeebe:input",
+        "name": "productId"
+      },
+      "constraints": { "notEmpty": true }
+    },
+    {
+      "label": "Result Variable",
+      "description": "Name of the variable to store the full product result in.",
+      "group": "output",
+      "type": "String",
+      "binding": {
+        "type": "zeebe:taskHeader",
+        "key": "resultVariable"
+      }
+    },
+    {
+      "label": "Result Expression",
+      "description": "Expression to map product fields into process variables.",
+      "group": "output",
+      "type": "Text",
+      "feel": "required",
+      "binding": {
+        "type": "zeebe:taskHeader",
+        "key": "resultExpression"
+      }
+    },
+    {
+      "label": "Error Expression",
+      "description": "Expression to handle connector errors as BPMN errors.",
+      "group": "errors",
+      "type": "Text",
+      "feel": "required",
+      "binding": {
+        "type": "zeebe:taskHeader",
+        "key": "errorExpression"
+      }
+    }
+  ]
+}
