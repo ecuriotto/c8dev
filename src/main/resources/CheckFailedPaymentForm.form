@@ -1,0 +1,123 @@
+{
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.8.0",
+  "exporter": {
+    "name": "Camunda Web Modeler",
+    "version": "6a26373"
+  },
+  "schemaVersion": 19,
+  "id": "CheckFailedPaymentexxx",
+  "components": [
+    {
+      "text": "### Check the failed payment:",
+      "label": "Text view",
+      "type": "text",
+      "layout": {
+        "row": "Row_07g3vmi",
+        "columns": null
+      },
+      "id": "Field_10yi92y"
+    },
+    {
+      "label": "Credit Card Data",
+      "components": [
+        {
+          "label": "Credit card number",
+          "type": "textfield",
+          "layout": {
+            "row": "Row_1xsvs30",
+            "columns": null
+          },
+          "id": "Field_1cg33mp",
+          "key": "cardNumber",
+          "readonly": true
+        },
+        {
+          "label": "CVC",
+          "type": "textfield",
+          "layout": {
+            "row": "Row_0g9opat",
+            "columns": null
+          },
+          "id": "Field_1vuna9p",
+          "key": "cvc",
+          "readonly": true
+        },
+        {
+          "label": "Expiry date",
+          "type": "textfield",
+          "layout": {
+            "row": "Row_01ya1kb",
+            "columns": null
+          },
+          "id": "Field_0ytzhyi",
+          "key": "expiryDate"
+        }
+      ],
+      "showOutline": true,
+      "type": "group",
+      "layout": {
+        "row": "Row_1gq5ff7",
+        "columns": null
+      },
+      "id": "Field_014vrpx"
+    },
+    {
+      "label": "Order data",
+      "components": [
+        {
+          "label": "Customer ID",
+          "type": "textfield",
+          "layout": {
+            "row": "Row_1lyy8qo",
+            "columns": null
+          },
+          "id": "Field_0qpcz1u",
+          "key": "customerId",
+          "readonly": true
+        },
+        {
+          "label": "Order total",
+          "type": "number",
+          "layout": {
+            "row": "Row_04yxncp",
+            "columns": null
+          },
+          "id": "Field_1tbvuu7",
+          "key": "orderTotal",
+          "readonly": true
+        },
+        {
+          "label": "Amount to charge",
+          "type": "number",
+          "layout": {
+            "row": "Row_1s0wi9q",
+            "columns": null
+          },
+          "id": "Field_1cdbcxd",
+          "key": "openAmount",
+          "readonly": true
+        }
+      ],
+      "showOutline": true,
+      "type": "group",
+      "layout": {
+        "row": "Row_19d47r2",
+        "columns": null
+      },
+      "id": "Field_0h5djrg"
+    },
+    {
+      "label": "Were you able to fix the error?",
+      "type": "checkbox",
+      "layout": {
+        "row": "Row_0unl60a",
+        "columns": null
+      },
+      "id": "Field_1tcjghw",
+      "key": "errorResolved",
+      "defaultValue": true
+    }
+  ],
+  "type": "default"
+}

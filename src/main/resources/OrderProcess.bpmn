@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:modeler="http://camunda.org/schema/modeler/1.0" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Web Modeler" exporterVersion="6a26373" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.8.0" camunda:diagramRelationId="3a85fbc8-18a9-433e-a3ed-dd5763955cd1">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:modeler="http://camunda.org/schema/modeler/1.0" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Web Modeler" exporterVersion="4327945" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.8.0" camunda:diagramRelationId="3a85fbc8-18a9-433e-a3ed-dd5763955cd1">
   <bpmn:process id="OrderProcess" name="Order Process" isExecutable="true">
     <bpmn:extensionElements>
       <zeebe:versionTag value="1.0" />
@@ -36,14 +36,15 @@
       <bpmn:incoming>Flow_0gp98d1</bpmn:incoming>
       <bpmn:outgoing>Flow_19an4sx</bpmn:outgoing>
     </bpmn:scriptTask>
-    <bpmn:serviceTask id="fetchProductInfo" name="Fetch product info" zeebe:modelerTemplate="io.camunda.example.product-catalog.v1" zeebe:modelerTemplateVersion="1">
+    <bpmn:serviceTask id="fetchProductInfo" name="Fetch product info" zeebe:modelerTemplate="io.camunda.academy.product-catalog.v1" zeebe:modelerTemplateVersion="1">
       <bpmn:extensionElements>
-        <zeebe:taskDefinition type="io.camunda.example:product-catalog:1" />
+        <zeebe:taskDefinition type="io.camunda.academy:product-catalog:1" />
         <zeebe:ioMapping>
           <zeebe:input source="=productId" target="productId" />
         </zeebe:ioMapping>
         <zeebe:taskHeaders>
           <zeebe:header key="resultExpression" value="={&#10;  &#34;productName&#34;: response.productName,&#10;  &#34;productDescription&#34;: response.productDescription,&#10;  &#34;productPrice&#34;: response.productPrice&#10;}" />
+          <zeebe:header key="errorExpression" value="=if error.code = &#34;PRODUCT_NOT_FOUND&#34;&#10;then bpmnError(&#34;PRODUCT_NOT_FOUND&#34;, error.message)&#10;else null" />
         </zeebe:taskHeaders>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_19an4sx</bpmn:incoming>
@@ -82,6 +83,19 @@
       <bpmn:incoming>Flow_0qoz84m</bpmn:incoming>
       <bpmn:outgoing>Flow_0zbf06v</bpmn:outgoing>
     </bpmn:scriptTask>
+    <bpmn:boundaryEvent id="Event_0hv8319" name="Product not found" attachedToRef="fetchProductInfo">
+      <bpmn:outgoing>Flow_1l3hiic</bpmn:outgoing>
+      <bpmn:errorEventDefinition id="ErrorEventDefinition_0phhk7d" errorRef="Error_08jdlfv" />
+    </bpmn:boundaryEvent>
+    <bpmn:task id="Activity_16r5oyc" name="Notify product not found">
+      <bpmn:incoming>Flow_1l3hiic</bpmn:incoming>
+      <bpmn:outgoing>Flow_03nh234</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:sequenceFlow id="Flow_1l3hiic" sourceRef="Event_0hv8319" targetRef="Activity_16r5oyc" />
+    <bpmn:endEvent id="Event_1kvfnit" name="product not found">
+      <bpmn:incoming>Flow_03nh234</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_03nh234" sourceRef="Activity_16r5oyc" targetRef="Event_1kvfnit" />
   </bpmn:process>
   <bpmn:message id="Message_11pgs9m" name="paymentCompletedMessage">
     <bpmn:extensionElements>
@@ -93,6 +107,7 @@
       <zeebe:subscription correlationKey="=orderId" />
     </bpmn:extensionElements>
   </bpmn:message>
+  <bpmn:error id="Error_08jdlfv" name="PRODUCT_NOT_FOUND" errorCode="PRODUCT_NOT_FOUND" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="OrderProcess">
       <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
@@ -146,6 +161,22 @@
       <bpmndi:BPMNShape id="Activity_0irz4aw_di" bpmnElement="Activity_0gzb3lz">
         <dc:Bounds x="700" y="78" width="100" height="80" />
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_16r5oyc_di" bpmnElement="Activity_16r5oyc">
+        <dc:Bounds x="520" y="200" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1kvfnit_di" bpmnElement="Event_1kvfnit">
+        <dc:Bounds x="672" y="222" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="647" y="265" width="86" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0hv8319_di" bpmnElement="Event_0hv8319">
+        <dc:Bounds x="432" y="140" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="407" y="183" width="87" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_0gp98d1_di" bpmnElement="Flow_0gp98d1">
         <di:waypoint x="186" y="118" />
         <di:waypoint x="240" y="118" />
@@ -186,6 +217,15 @@
       <bpmndi:BPMNEdge id="Flow_0zbf06v_di" bpmnElement="Flow_0zbf06v">
         <di:waypoint x="800" y="118" />
         <di:waypoint x="850" y="118" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1l3hiic_di" bpmnElement="Flow_1l3hiic">
+        <di:waypoint x="450" y="176" />
+        <di:waypoint x="450" y="240" />
+        <di:waypoint x="520" y="240" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_03nh234_di" bpmnElement="Flow_03nh234">
+        <di:waypoint x="620" y="240" />
+        <di:waypoint x="672" y="240" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
