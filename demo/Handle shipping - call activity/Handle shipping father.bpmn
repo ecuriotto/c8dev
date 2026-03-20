@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:modeler="http://camunda.org/schema/modeler/1.0" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Web Modeler" exporterVersion="4327945" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.8.0">
+  <bpmn:process id="Process_0zpx5jo" name="Handle shipping" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>Flow_0epn51y</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_0epn51y" sourceRef="StartEvent_1" targetRef="handleShippingFather" />
+    <bpmn:task id="Activity_05as4bk" name="Next steps">
+      <bpmn:incoming>Flow_0clu430</bpmn:incoming>
+      <bpmn:outgoing>Flow_1n1qdx7</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:sequenceFlow id="Flow_0clu430" sourceRef="handleShippingFather" targetRef="Activity_05as4bk" />
+    <bpmn:endEvent id="Event_1yhohst">
+      <bpmn:incoming>Flow_1n1qdx7</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1n1qdx7" sourceRef="Activity_05as4bk" targetRef="Event_1yhohst" />
+    <bpmn:callActivity id="handleShippingFather" name="Handle shipping father">
+      <bpmn:extensionElements>
+        <zeebe:calledElement processId="handleShippingChild" propagateAllChildVariables="false" propagateAllParentVariables="false" bindingType="deployment" />
+        <zeebe:ioMapping>
+          <zeebe:input source="=shippingMethodFather" target="shippingMethod" />
+        </zeebe:ioMapping>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0epn51y</bpmn:incoming>
+      <bpmn:outgoing>Flow_0clu430</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:boundaryEvent id="Event_0xqnuy7" attachedToRef="handleShippingFather">
+      <bpmn:outgoing>Flow_0f4nr3e</bpmn:outgoing>
+      <bpmn:errorEventDefinition id="ErrorEventDefinition_1qcg9yy" errorRef="Error_109htd3" />
+    </bpmn:boundaryEvent>
+    <bpmn:task id="Activity_1abt7cw" name="handle error">
+      <bpmn:incoming>Flow_0f4nr3e</bpmn:incoming>
+      <bpmn:outgoing>Flow_0ndu3ji</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:sequenceFlow id="Flow_0f4nr3e" sourceRef="Event_0xqnuy7" targetRef="Activity_1abt7cw" />
+    <bpmn:endEvent id="Event_18kvkw2">
+      <bpmn:incoming>Flow_0ndu3ji</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_0ndu3ji" sourceRef="Activity_1abt7cw" targetRef="Event_18kvkw2" />
+  </bpmn:process>
+  <bpmn:error id="Error_109htd3" name="shipping Failed" errorCode="shippingFailed" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_0zpx5jo">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="150" y="100" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_05as4bk_di" bpmnElement="Activity_05as4bk">
+        <dc:Bounds x="470" y="78" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1yhohst_di" bpmnElement="Event_1yhohst">
+        <dc:Bounds x="732" y="100" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1xc4bup_di" bpmnElement="handleShippingFather">
+        <dc:Bounds x="250" y="78" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1abt7cw_di" bpmnElement="Activity_1abt7cw">
+        <dc:Bounds x="390" y="200" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_18kvkw2_di" bpmnElement="Event_18kvkw2">
+        <dc:Bounds x="542" y="222" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0ctw5pe_di" bpmnElement="Event_0xqnuy7">
+        <dc:Bounds x="302" y="140" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0epn51y_di" bpmnElement="Flow_0epn51y">
+        <di:waypoint x="186" y="118" />
+        <di:waypoint x="250" y="118" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0clu430_di" bpmnElement="Flow_0clu430">
+        <di:waypoint x="350" y="118" />
+        <di:waypoint x="470" y="118" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1n1qdx7_di" bpmnElement="Flow_1n1qdx7">
+        <di:waypoint x="570" y="118" />
+        <di:waypoint x="732" y="118" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0f4nr3e_di" bpmnElement="Flow_0f4nr3e">
+        <di:waypoint x="320" y="176" />
+        <di:waypoint x="320" y="240" />
+        <di:waypoint x="390" y="240" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0ndu3ji_di" bpmnElement="Flow_0ndu3ji">
+        <di:waypoint x="490" y="240" />
+        <di:waypoint x="542" y="240" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

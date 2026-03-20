@@ -1,0 +1,46 @@
+{
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.8.0",
+  "exporter": {
+    "name": "Camunda Web Modeler",
+    "version": "4327945"
+  },
+  "schemaVersion": 19,
+  "id": "approve-new-policy-conditions-0bi8in1",
+  "components": [
+    {
+      "label": "New policy conditions",
+      "type": "textarea",
+      "layout": {
+        "row": "Row_1176qr4",
+        "columns": null
+      },
+      "id": "Field_07eoyri",
+      "key": "policyConditions",
+      "description": "these are the policy...."
+    },
+    {
+      "label": "Validate conditions?",
+      "type": "checkbox",
+      "layout": {
+        "row": "Row_0ajjbp5",
+        "columns": 7
+      },
+      "id": "Field_07xu2qa",
+      "key": "validated"
+    },
+    {
+      "text": "### Conditions validated",
+      "type": "text",
+      "layout": {
+        "row": "Row_1b05sfp",
+        "columns": null
+      },
+      "id": "Field_151yuoh",
+      "conditional": {
+        "hide": "=not(validated)"
+      }
+    }
+  ],
+  "type": "default"
+}

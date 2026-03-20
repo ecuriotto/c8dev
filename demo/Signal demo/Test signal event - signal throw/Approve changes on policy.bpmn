@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:modeler="http://camunda.org/schema/modeler/1.0" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Web Modeler" exporterVersion="4327945" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.8.0">
+  <bpmn:process id="approvePolicyChanges" name="ApprovePolicyChanges" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>Flow_102ouo3</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_102ouo3" sourceRef="StartEvent_1" targetRef="Activity_0ohi46h" />
+    <bpmn:sequenceFlow id="Flow_1rs1o08" sourceRef="Activity_0ohi46h" targetRef="Event_009e6dc" />
+    <bpmn:intermediateThrowEvent id="Event_009e6dc">
+      <bpmn:incoming>Flow_1rs1o08</bpmn:incoming>
+      <bpmn:outgoing>Flow_18otdcc</bpmn:outgoing>
+      <bpmn:signalEventDefinition id="SignalEventDefinition_1ozzeos" signalRef="Signal_2vfdef0" />
+    </bpmn:intermediateThrowEvent>
+    <bpmn:endEvent id="Event_16wvds9">
+      <bpmn:incoming>Flow_18otdcc</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_18otdcc" sourceRef="Event_009e6dc" targetRef="Event_16wvds9" />
+    <bpmn:userTask id="Activity_0ohi46h" name="Approve new policy conditions">
+      <bpmn:extensionElements>
+        <zeebe:userTask />
+        <zeebe:formDefinition formId="approve-new-policy-conditions-0bi8in1" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_102ouo3</bpmn:incoming>
+      <bpmn:outgoing>Flow_1rs1o08</bpmn:outgoing>
+    </bpmn:userTask>
+  </bpmn:process>
+  <bpmn:signal id="Signal_2vfdef0" name="contractAdjusted" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="approvePolicyChanges">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="150" y="100" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_19l4dev_di" bpmnElement="Event_009e6dc">
+        <dc:Bounds x="402" y="100" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_16wvds9_di" bpmnElement="Event_16wvds9">
+        <dc:Bounds x="502" y="100" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0wclc4e_di" bpmnElement="Activity_0ohi46h">
+        <dc:Bounds x="240" y="78" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_102ouo3_di" bpmnElement="Flow_102ouo3">
+        <di:waypoint x="186" y="118" />
+        <di:waypoint x="240" y="118" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1rs1o08_di" bpmnElement="Flow_1rs1o08">
+        <di:waypoint x="340" y="118" />
+        <di:waypoint x="402" y="118" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_18otdcc_di" bpmnElement="Flow_18otdcc">
+        <di:waypoint x="438" y="118" />
+        <di:waypoint x="502" y="118" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

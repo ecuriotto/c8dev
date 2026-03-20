@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:modeler="http://camunda.org/schema/modeler/1.0" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Web Modeler" exporterVersion="3922fa5" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.8.0">
+  <bpmn:process id="policyProcess" name="Policy process" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>Flow_1enxsbf</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:exclusiveGateway id="Gateway_1htck9t">
+      <bpmn:incoming>Flow_1enxsbf</bpmn:incoming>
+      <bpmn:incoming>Flow_0ilqwnu</bpmn:incoming>
+      <bpmn:outgoing>Flow_10yy586</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_1enxsbf" sourceRef="StartEvent_1" targetRef="Gateway_1htck9t" />
+    <bpmn:task id="Activity_0pxan0m" name="Calculate contract">
+      <bpmn:incoming>Flow_10yy586</bpmn:incoming>
+      <bpmn:outgoing>Flow_18att3w</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:sequenceFlow id="Flow_10yy586" sourceRef="Gateway_1htck9t" targetRef="Activity_0pxan0m" />
+    <bpmn:sequenceFlow id="Flow_18att3w" sourceRef="Activity_0pxan0m" targetRef="Activity_1effcam" />
+    <bpmn:userTask id="Activity_1effcam" name="Review and adjust contract">
+      <bpmn:extensionElements>
+        <zeebe:userTask />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_18att3w</bpmn:incoming>
+      <bpmn:outgoing>Flow_0xessy9</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:task id="Activity_1npgmw5" name="Send contract">
+      <bpmn:incoming>Flow_0xessy9</bpmn:incoming>
+      <bpmn:outgoing>Flow_0ncgi3t</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:sequenceFlow id="Flow_0xessy9" sourceRef="Activity_1effcam" targetRef="Activity_1npgmw5" />
+    <bpmn:endEvent id="Event_1bkj18u">
+      <bpmn:incoming>Flow_0ncgi3t</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_0ncgi3t" sourceRef="Activity_1npgmw5" targetRef="Event_1bkj18u" />
+    <bpmn:boundaryEvent id="Event_0a6qmfc" attachedToRef="Activity_1effcam">
+      <bpmn:outgoing>Flow_0ilqwnu</bpmn:outgoing>
+      <bpmn:signalEventDefinition id="SignalEventDefinition_18nq488" signalRef="Signal_3jtt6v5" />
+    </bpmn:boundaryEvent>
+    <bpmn:sequenceFlow id="Flow_0ilqwnu" sourceRef="Event_0a6qmfc" targetRef="Gateway_1htck9t" />
+  </bpmn:process>
+  <bpmn:signal id="Signal_3jtt6v5" name="contractAdjusted" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="policyProcess">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="150" y="100" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1htck9t_di" bpmnElement="Gateway_1htck9t" isMarkerVisible="true">
+        <dc:Bounds x="245" y="93" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0pxan0m_di" bpmnElement="Activity_0pxan0m">
+        <dc:Bounds x="360" y="78" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0loeebk_di" bpmnElement="Activity_1effcam">
+        <dc:Bounds x="530" y="78" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1npgmw5_di" bpmnElement="Activity_1npgmw5">
+        <dc:Bounds x="700" y="78" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1bkj18u_di" bpmnElement="Event_1bkj18u">
+        <dc:Bounds x="872" y="100" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_10w4q2t_di" bpmnElement="Event_0a6qmfc">
+        <dc:Bounds x="562" y="140" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1enxsbf_di" bpmnElement="Flow_1enxsbf">
+        <di:waypoint x="186" y="118" />
+        <di:waypoint x="245" y="118" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_10yy586_di" bpmnElement="Flow_10yy586">
+        <di:waypoint x="295" y="118" />
+        <di:waypoint x="360" y="118" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_18att3w_di" bpmnElement="Flow_18att3w">
+        <di:waypoint x="460" y="118" />
+        <di:waypoint x="530" y="118" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0xessy9_di" bpmnElement="Flow_0xessy9">
+        <di:waypoint x="630" y="118" />
+        <di:waypoint x="700" y="118" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0ncgi3t_di" bpmnElement="Flow_0ncgi3t">
+        <di:waypoint x="800" y="118" />
+        <di:waypoint x="872" y="118" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0ilqwnu_di" bpmnElement="Flow_0ilqwnu">
+        <di:waypoint x="580" y="176" />
+        <di:waypoint x="580" y="240" />
+        <di:waypoint x="270" y="240" />
+        <di:waypoint x="270" y="143" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

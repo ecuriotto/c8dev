@@ -1,0 +1,23 @@
+{
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.8.0",
+  "exporter": {
+    "name": "Camunda Web Modeler",
+    "version": "3922fa5"
+  },
+  "schemaVersion": 19,
+  "id": "define-failure-02yzqdi",
+  "components": [
+    {
+      "label": "should fail",
+      "type": "checkbox",
+      "layout": {
+        "row": "Row_09lx544",
+        "columns": null
+      },
+      "id": "Field_1pk2iyw",
+      "key": "shouldFail"
+    }
+  ],
+  "type": "default"
+}
